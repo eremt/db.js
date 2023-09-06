@@ -4,7 +4,7 @@ function filter (needles, haystack) {
   return haystack.filter(obj => {
     let matches = []
     for ([key, value] of needles) {
-      if (value instanceof RegExp && obj[key].search(value) !== -1) {
+      if (value instanceof RegExp && obj[key].search && obj[key].search(value) !== -1) {
         matches.push(key)
       } else if (obj[key] === value) {
         matches.push(key)
