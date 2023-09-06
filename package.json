@@ -1,0 +1,19 @@
+{
+  "name": "db.js",
+  "version": "0.0.1",
+  "description": "Simple in-memory database",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eremt/db.js.git"
+  },
+  "author": "Troy Erem",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/eremt/db.js/issues"
+  },
+  "homepage": "https://github.com/eremt/db.js#readme"
+}
