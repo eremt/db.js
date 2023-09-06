@@ -1,6 +1,6 @@
 # db.js
 
-Simple in-memory database
+Simple in-memory database with no dependencies contained in a single JavaScript file.
 
 # Installation
 
