@@ -31,6 +31,22 @@ describe('db.js', () => {
       const db = new dbjs()
       expect(await db.get('undefined-id')).toBeUndefined()
     })
+
+    it('gets exact match from string', async () => {
+      const db = new dbjs()
+      await db.set(undefined, { value: 'example' })
+      await db.set(undefined, { value: 'another example' })
+      const result = await db.get(undefined, { value: 'example' })
+      expect(result).toHaveLength(1)
+    })
+
+    it('gets partial match from RegExp', async () => {
+      const db = new dbjs()
+      await db.set(undefined, { value: 'example' })
+      await db.set(undefined, { value: 'another example' })
+      expect(await db.get(undefined, { value: /example/ })).toHaveLength(2)
+      expect(await db.get(undefined, { value: /^example/ })).toHaveLength(1)
+    })
   })
 
   describe('db.set', () => {
