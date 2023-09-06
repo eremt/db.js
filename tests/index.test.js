@@ -34,7 +34,7 @@ describe('db.get', () => {
   let db
   beforeEach(async () => {
     db = new dbjs()
-    await Promise.all(data.map(obj => db.set(undefined, obj)))
+    await Promise.all(data.map(obj => db.set(obj)))
   })
 
   it('db.get() gets all', async () => {
@@ -84,30 +84,39 @@ describe('db.set', () => {
     db = new dbjs()
   })
 
-  it('db.set() creates with { id, created }', async () => {
+  it('db.set() creates { id, created, updated }', async () => {
     const result = await db.set()
-    const { id, created } = result
-    expect(result).toEqual({ id, created })
+    const { id, created, updated } = result
+    expect(result).toEqual({ id, created, updated })
+    // created and updated should be the same
+    expect(created).toEqual(updated)
     expect(await db.get()).toHaveLength(1)
   })
 
-  it('db.set(undefined, { value }) creates with { ..., value }', async () => {
+  it('db.set({ value }) creates { ..., value }', async () => {
     const data = { value: 'example' }
-    const result = await db.set(undefined, data)
-    const { id, created, value } = result
-    expect(result).toEqual({ id, created, value })
+    const result = await db.set(data)
+    const { id, created, updated, value } = result
+    expect(result).toEqual({ id, created, updated, value })
   })
 
-  it('db.set(key, { value }) updates existing', async () => {
-    const result = await db.set(undefined, { value: 'example' })
-    const { id, created } = result
+  it('db.set({ value }, key) updates { updated, value }', async () => {
+    const { id, created } = await db.set({ value: 'example' })
 
-    const updated = await db.set(id, { value: 'updated' })
-    const { value } = updated
+    // mock time to pass before update
+    jest.useFakeTimers().setSystemTime(new Date(created + 1000))
+    const result = await db.set({ value: 'updated' }, id)
+    const { updated, value } = result
 
-    expect(updated).toEqual({ id, created, value })
+    expect(result).toEqual({ id, created, updated, value })
+    // created and result.created should be the same
+    expect(result.created).toEqual(created)
+    // but result.created and updated should not
+    expect(result.created).not.toEqual(updated)
     // make sure it doesn't create another
     expect(await db.get()).toHaveLength(1)
+
+    jest.useRealTimers() // restore mocks
   })
 })
 

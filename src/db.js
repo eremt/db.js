@@ -36,14 +36,17 @@ module.exports = class dbjs {
     return data
   }
 
-  async set (key, data = {}) {
+  async set (data = {}, key) {
+    const updated = Date.now()
     let id, value
     if (key) {
+      // update
       id = key
-      value = { ...this.data[key] }
+      value = { ...this.data[key], updated }
     } else {
+      // create
       id = randomUUID()
-      value = { id, created: Date.now() }
+      value = { id, created: updated, updated }
     }
     value = { ...value, ...data }
     this.data[id] = value
