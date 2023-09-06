@@ -2,7 +2,7 @@
 
 Simple in-memory database with no dependencies contained in a single JavaScript file.
 
-# Installation
+## Installation
 
 Install with npm:
 ```
