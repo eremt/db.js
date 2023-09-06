@@ -1,4 +1,4 @@
-const dbjs = require('../src/index')
+const dbjs = require('../src/db')
 const { randomUUID } = require('crypto')
 
 describe('db.js', () => {
