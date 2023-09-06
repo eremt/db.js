@@ -19,12 +19,17 @@ module.exports = class dbjs {
     this.data = {}
   }
 
-  async get (key, query = {}) {
-    let data, f
-    if (key) {
-      data = this.data[key] || undefined
-    } else if ((f = Object.entries(query)).length) {
-      data = filter(f, Object.values(this.data))
+  async get (query) {
+    let data = []
+    if (query) {
+      if (typeof query === 'string') {
+        // assume it's a key
+        if (this.data[query]) data = [this.data[query]]
+      } else {
+        // probably object
+        const filters = Object.entries(query)
+        if (filters.length) data = filter(filters, Object.values(this.data))
+      }
     } else {
       data = Object.values(this.data)
     }

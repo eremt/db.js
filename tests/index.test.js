@@ -41,39 +41,39 @@ describe('db.get', () => {
     expect(await db.get()).toHaveLength(8)
   })
 
-  it('db.get(key) gets one', async () => {
+  it('db.get(string) gets one', async () => {
     const [first] = await db.get()
-    expect(await db.get(first.id)).toEqual(first)
+    expect(await db.get(first.id)).toEqual([first])
   })
 
   it('db.get(\'undefined-key\') gets none', async () => {
-    expect(await db.get('undefined-key')).toBeUndefined()
+    expect(await db.get('undefined-key')).toHaveLength(0)
   })
 
-  it('db.get(undefined, { value: string })', async () => {
-    expect(await db.get(undefined, { value: 'example' })).toHaveLength(1)
-    expect(await db.get(undefined, { value: '' })).toHaveLength(1)
+  it('db.get({ value: string })', async () => {
+    expect(await db.get({ value: 'example' })).toHaveLength(1)
+    expect(await db.get({ value: '' })).toHaveLength(1)
   })
 
-  it('db.get(undefined, { value: number })', async () => {
-    expect(await db.get(undefined, { value: 1 })).toHaveLength(1)
-    expect(await db.get(undefined, { value: 0 })).toHaveLength(1)
+  it('db.get({ value: number })', async () => {
+    expect(await db.get({ value: 1 })).toHaveLength(1)
+    expect(await db.get({ value: 0 })).toHaveLength(1)
   })
 
-  it('db.get(undefined, { value: boolean })', async () => {
-    expect(await db.get(undefined, { value: true })).toHaveLength(1)
-    expect(await db.get(undefined, { value: false })).toHaveLength(1)
+  it('db.get({ value: boolean })', async () => {
+    expect(await db.get({ value: true })).toHaveLength(1)
+    expect(await db.get({ value: false })).toHaveLength(1)
   })
 
-  it('db.get(undefined, { value: RegExp })', async () => {
+  it('db.get({ value: RegExp })', async () => {
     // 3 partial
-    expect(await db.get(undefined, { value: /example/ })).toHaveLength(3)
+    expect(await db.get({ value: /example/ })).toHaveLength(3)
     // 2 starging with
-    expect(await db.get(undefined, { value: /^example/ })).toHaveLength(2)
+    expect(await db.get({ value: /^example/ })).toHaveLength(2)
     // 2 ending with
-    expect(await db.get(undefined, { value: /example$/ })).toHaveLength(2)
+    expect(await db.get({ value: /example$/ })).toHaveLength(2)
     // 1 exact
-    expect(await db.get(undefined, { value: /^example$/ })).toHaveLength(1)
+    expect(await db.get({ value: /^example$/ })).toHaveLength(1)
   })
 })
 
@@ -120,7 +120,7 @@ describe('db.del', () => {
   it('db.del(key) deletes one', async () => {
     const { id } = await db.set()
     expect(await db.del(id)).toEqual(id)
-    expect(await db.get(id)).toBeUndefined()
+    expect(await db.get(id)).toHaveLength(0)
   })
 
   it('db.del(\'undefined-key\') deletes none', async () => {
