@@ -1,9 +1,10 @@
 # db.js
 
-Simple in-memory database without dependencies in a single [JavaScript file](https://github.com/eremt/db.js/blob/main/src/db.js) < 100 LOC.
+Simple in-memory database without dependencies in a [single JavaScript file](https://github.com/eremt/db.js/blob/main/src/db.js).
 
 - **opinionated:** all objects have atleast `id`, `created` and `updated` keys
 - **minimalist:** only 3 operations: `get`, `set` and `del`
+- **tiny:** less than 100 LOC including comments and whitespace
 
 ## Installation
 
@@ -18,12 +19,12 @@ wget https://raw.github.com/eremt/db.js/main/src/db.js
 
 ## Documentation
 
-- [`dbjs()`](https://github.com/eremt/db.js#dbjs)
+- [`dbjs(options?)`](https://github.com/eremt/db.js#dbjsoptions)
 - [`get(query?)`](https://github.com/eremt/db.js#getquery)
 - [`set(key?, data?)`](https://github.com/eremt/db.js#setdata-key)
 - [`del(key)`](https://github.com/eremt/db.js#delkey)
 
-### `dbjs()`
+### `dbjs(options?)`
 
 ```
 const dbjs = require('db.js')
@@ -88,7 +89,13 @@ db.set({ value: 'My example' })
 
 #### `set(data: any, key: string)`
 
-When `data` and `key` are passed it either updates an existing object with the `data` and updates the `updated` value, or if no such key is found creates a new one. The new object will be created with the provided `key` as `id` instead of the default `UUID`. Returns the updated or created object.
+When `data` and `key` are passed it does one of two things:
+
+If the `key` is found it updates that object with the `data` and a new `updated` value.
+
+If no `key` is found it creates a new object with the `data` and all default values except `id` which gets its value from `key`.
+
+Returns the updated or created object.
 
 #### Example
 ```
