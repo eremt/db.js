@@ -14,14 +14,14 @@ npm i -S https://github.com/eremt/db.js
 ```
 or just download the file:
 ```
-wget https://raw.github.com/eremt/db.js/main/src/db.js
+wget https://raw.github.com/eremt/db.js/main/db.js
 ```
 
 ## Documentation
 
 - [`dbjs(options?)`](https://github.com/eremt/db.js#dbjsoptions)
 - [`get(query?)`](https://github.com/eremt/db.js#getquery)
-- [`set(key?, data?)`](https://github.com/eremt/db.js#setdata-key)
+- [`set(data?, key?)`](https://github.com/eremt/db.js#setdata-key)
 - [`del(key)`](https://github.com/eremt/db.js#delkey)
 
 ### `dbjs(options?)`

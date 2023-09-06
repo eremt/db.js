@@ -1,4 +1,4 @@
-const dbjs = require('../src/db')
+const dbjs = require('../db.js')
 const { randomUUID } = require('crypto')
 
 // Mock data
