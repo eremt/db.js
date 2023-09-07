@@ -114,3 +114,13 @@ db.set({ value: 'My example' }, 'my-key')
 ```
 
 ### `del(key)`
+
+#### `del(key: string)`
+
+Returns either the `key` that was deleted, or `undefined` if no such key exists.
+
+#### Example
+```
+db.del('my-key')
+// => 'my-key'
+```

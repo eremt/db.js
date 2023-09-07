@@ -27,7 +27,7 @@ module.exports = class dbjs {
         if (!fs.existsSync(path.dirname(this.file))) {
           fs.mkdirSync(path.dirname(this.file), { recursive: true })
         }
-        this.writeDbFile(this.data)
+        this.writeDbFile()
       }
     }
   }
