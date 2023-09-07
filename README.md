@@ -1,6 +1,6 @@
 # db.js
 
-Simple in-memory database without dependencies in a [single JavaScript file](https://github.com/eremt/db.js/blob/main/db.js).
+Simple database without dependencies in a [single JavaScript file](https://github.com/eremt/db.js/blob/main/db.js).
 
 - **opinionated:** all objects have atleast `id`, `created` and `updated` keys
 - **minimalist:** only 3 operations: `get`, `set` and `del`
@@ -29,6 +29,16 @@ wget https://raw.github.com/eremt/db.js/main/db.js
 ```
 const dbjs = require('db.js')
 const db = new dbjs()
+```
+
+#### `options.file: string`
+
+An optional file to use for data persistence, if it doesn't exist it will be created. If `undefined` the storage will default to memory.
+
+#### Example
+```
+const dbjs = require('db.js')
+const db = new dbjs({ file: './db.json' })
 ```
 
 ### `get(query?)`

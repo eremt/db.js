@@ -1,7 +1,7 @@
 {
   "name": "db.js",
   "version": "0.0.1",
-  "description": "Simple in-memory database",
+  "description": "Simple database",
   "main": "db.js",
   "scripts": {
     "test": "jest"
