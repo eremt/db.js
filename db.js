@@ -1,4 +1,6 @@
 const { randomUUID } = require('crypto')
+const fs = require('fs')
+const path = require('path')
 
 function filter (needles, haystack) {
   return haystack.filter(obj => {
@@ -15,8 +17,28 @@ function filter (needles, haystack) {
 }
 
 module.exports = class dbjs {
-  constructor () {
+  constructor (options = { file: undefined }) {
     this.data = {}
+    this.file = options.file && path.join(__dirname, options.file)
+    if (this.file) {
+      try {
+        this.data = this.readDbFile()
+      } catch (error) {
+        if (!fs.existsSync(path.dirname(this.file))) {
+          fs.mkdirSync(path.dirname(this.file), { recursive: true })
+        }
+        this.writeDbFile(this.data)
+      }
+    }
+  }
+
+  readDbFile () {
+    if (!this.file) return {}
+    return JSON.parse(fs.readFileSync(this.file))
+  }
+  writeDbFile () {
+    if (!this.file) return
+    fs.writeFileSync(this.file, JSON.stringify(this.data))
   }
 
   async get (query) {
@@ -50,6 +72,8 @@ module.exports = class dbjs {
     }
     value = { ...value, ...data }
     this.data[id] = value
+
+    this.writeDbFile()
     return { ...this.data[id] }
   }
 
@@ -57,6 +81,8 @@ module.exports = class dbjs {
     if (!key) throw new Error('Can\'t delete without key')
     if (!this.data[key]) return undefined
     delete this.data[key]
+
+    this.writeDbFile()
     return key
   }
 }

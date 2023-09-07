@@ -1,5 +1,7 @@
 const dbjs = require('../db.js')
 const { randomUUID } = require('crypto')
+const fs = require('fs')
+const path = require('path')
 
 // Mock data
 // tests all types in truthy/falsy versions
@@ -18,7 +20,13 @@ const data = [
   { value: false },
 ]
 
+jest.mock('fs')
+
 describe('db = new dbjs()', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
   it('is instanceof dbjs', async () => {
     const db = new dbjs()
     expect(db).toBeInstanceOf(dbjs)
@@ -27,6 +35,21 @@ describe('db = new dbjs()', () => {
   it('is created empty', async () => {
     const db = new dbjs()
     expect(await db.get()).toHaveLength(0)
+  })
+
+  it('creates options.file if not exist', async () => {
+    const file_path = './no-such-file.json'
+    const full_path = path.join(__dirname, '../', file_path)
+    new dbjs({ file: file_path })
+    expect(fs.readFileSync).toHaveBeenCalledWith(full_path)
+  })
+
+  it('creates path to options.file if not exist', async () => {
+    const file_path = './no/such/file.json'
+    const full_path = path.join(__dirname, '../', file_path)
+    new dbjs({ file: file_path })
+    expect(fs.mkdirSync).toHaveBeenCalledWith(path.dirname(full_path), { recursive: true })
+    expect(fs.readFileSync).toHaveBeenCalledWith(full_path)
   })
 })
 
