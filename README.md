@@ -1,6 +1,6 @@
 # db.js
 
-Simple in-memory database without dependencies in a [single JavaScript file](https://github.com/eremt/db.js/blob/main/src/db.js).
+Simple in-memory database without dependencies in a [single JavaScript file](https://github.com/eremt/db.js/blob/main/db.js).
 
 - **opinionated:** all objects have atleast `id`, `created` and `updated` keys
 - **minimalist:** only 3 operations: `get`, `set` and `del`
@@ -100,7 +100,7 @@ Returns the updated or created object.
 #### Example
 ```
 db.set({ value: 'My example' }, 'my-key')
-// => { id: 'my-ke', created, updated, value: 'My example' }
+// => { id: 'my-key', created, updated, value: 'My example' }
 ```
 
 ### `del(key)`
