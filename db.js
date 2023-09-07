@@ -19,21 +19,26 @@ function filter (needles, haystack) {
 module.exports = class dbjs {
   constructor (options = { file: undefined }) {
     this.data = {}
-    this.file = options.file && path.join('./', options.file)
+    this.file = options.file && path.join(__dirname, options.file)
     if (this.file) {
       try {
         this.data = this.readDbFile()
       } catch (error) {
+        if (!fs.existsSync(path.dirname(this.file))) {
+          fs.mkdirSync(path.dirname(this.file), { recursive: true })
+        }
         this.writeDbFile(this.data)
       }
     }
   }
 
   readDbFile () {
-    if (this.file) return JSON.parse(fs.readFileSync(this.file))
+    if (!this.file) return {}
+    return JSON.parse(fs.readFileSync(this.file))
   }
   writeDbFile () {
-    if (this.file) fs.writeFileSync(this.file, JSON.stringify(this.data))
+    if (!this.file) return
+    fs.writeFileSync(this.file, JSON.stringify(this.data))
   }
 
   async get (query) {
